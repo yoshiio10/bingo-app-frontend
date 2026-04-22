@@ -12,7 +12,7 @@ export default function Registro() {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3000/api/auth/registro', form);
+      await axios.post('https://bingo-app-backend-i8c1.onrender.com/api/auth/registro', form);
       navigate('/');
     } catch (err) {
       setError('Error al registrarse, intenta de nuevo');

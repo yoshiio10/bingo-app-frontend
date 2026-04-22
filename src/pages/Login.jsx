@@ -12,7 +12,7 @@ export default function Login() {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3000/api/auth/login', form);
+      const res = await axios.post('https://bingo-app-backend-i8c1.onrender.comkend-i8c1.onrender.comkend-i8c1.onrender.comkend-i8c1.onrender.comkend-i8c1.onrender.comkend-i8c1.onrender.com/api/auth/login', form);
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('usuario', JSON.stringify(res.data.usuario));
       if (res.data.usuario.rol === 'residente') {

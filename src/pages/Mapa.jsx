@@ -39,7 +39,7 @@ export default function Mapa() {
 
   const cargarPuntos = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/puntos', { headers: { authorization: token } });
+      const res = await axios.get('https://bingo-app-backend-i8c1.onrender.comkend-i8c1.onrender.comkend-i8c1.onrender.comkend-i8c1.onrender.comkend-i8c1.onrender.com/api/puntos', { headers: { authorization: token } });
       setPuntos(res.data.puntos);
     } catch (err) {
       console.error(err);
@@ -49,8 +49,8 @@ export default function Mapa() {
   const cargarSolicitudes = async () => {
     try {
       const url = usuario?.rol === 'residente'
-        ? 'http://localhost:3000/api/solicitudes/mis-solicitudes'
-        : 'http://localhost:3000/api/solicitudes/pendientes';
+        ? 'https://bingo-app-backend-i8c1.onrender.comkend-i8c1.onrender.comkend-i8c1.onrender.comkend-i8c1.onrender.com/api/solicitudes/mis-solicitudes'
+        : 'https://bingo-app-backend-i8c1.onrender.comkend-i8c1.onrender.comkend-i8c1.onrender.comkend-i8c1.onrender.com/api/solicitudes/pendientes';
       const res = await axios.get(url, { headers: { authorization: token } });
       setSolicitudes(res.data.solicitudes);
     } catch (err) {
