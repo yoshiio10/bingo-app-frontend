@@ -15,7 +15,7 @@ export default function DashboardReciclador() {
 
   const cargarSolicitudes = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/solicitudes/pendientes', {
+      const res = await axios.get('https://bingo-app-backend-i8c1.onrender.com/api/solicitudes/pendientes', {
         headers: { authorization: token }
       });
       setSolicitudes(res.data.solicitudes);
@@ -26,7 +26,7 @@ export default function DashboardReciclador() {
 
   const aceptarSolicitud = async (id) => {
     try {
-      await axios.put(`http://localhost:3000/api/solicitudes/${id}/aceptar`, {}, {
+      await axios.put(`https://bingo-app-backend-i8c1.onrender.com/api/solicitudes/${id}/aceptar`, {}, {
         headers: { authorization: token }
       });
       setMensaje('✅ Solicitud aceptada');

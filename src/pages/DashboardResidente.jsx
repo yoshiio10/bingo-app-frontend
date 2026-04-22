@@ -16,7 +16,7 @@ export default function DashboardResidente() {
 
   const cargarSolicitudes = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/solicitudes/mis-solicitudes', {
+      const res = await axios.get('https://bingo-app-backend-i8c1.onrender.com/api/solicitudes/mis-solicitudes', {
         headers: { authorization: token }
       });
       setSolicitudes(res.data.solicitudes);
@@ -29,7 +29,7 @@ export default function DashboardResidente() {
 
   const handleSubmit = async () => {
     try {
-      await axios.post('http://localhost:3000/api/solicitudes', form, {
+      await axios.post('https://bingo-app-backend-i8c1.onrender.com/api/solicitudes', form, {
         headers: { authorization: token }
       });
       setMensaje('✅ Solicitud enviada correctamente');
