@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 export default function DashboardResidente() {
   const [solicitudes, setSolicitudes] = useState([]);
   const [form, setForm] = useState({ descripcion: '', tipo_residuo: '', direccion: '', lat: 22.2734, lng: -97.8428 });
-  const [formPunto, setFormPunto] = useState({ nombre: '', direccion: '', tipos_residuos: '', horario_apertura: '', horario_cierre: '', lat: 22.2734, lng: -97.8428 });
+  const [formPunto, setFormPunto] = useState({ nombre: '', direccion: '', tipos_residuos: '', horario_apertura: '', horario_cierre: '' });
   const [mensaje, setMensaje] = useState('');
   const [mensajePunto, setMensajePunto] = useState('');
   const navigate = useNavigate();
@@ -32,13 +32,35 @@ export default function DashboardResidente() {
 
   const handleSubmitPunto = async () => {
     try {
-      await axios.post('https://bingo-app-backend-i8c1.onrender.com/api/puntos', formPunto, {
+      const direccionCompleta = `${formPunto.direccion}, Ciudad Madero, Tamaulipas, Mexico`;
+      const geoRes = await axios.get(
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(direccionCompleta)}&format=json&limit=1`
+      );
+
+      if (geoRes.data.length === 0) {
+        setMensajePunto('❌ No se encontró la dirección, intenta ser más específico');
+        return;
+      }
+
+      const lat = parseFloat(geoRes.data[0].lat);
+      const lng = parseFloat(geoRes.data[0].lon);
+
+      await axios.post('https://bingo-app-backend-i8c1.onrender.com/api/puntos', {
+        nombre: formPunto.nombre,
+        direccion: formPunto.direccion,
+        lat,
+        lng,
+        tipos_residuos: formPunto.tipos_residuos,
+        horario_apertura: formPunto.horario_apertura,
+        horario_cierre: formPunto.horario_cierre
+      }, {
         headers: { authorization: token }
       });
-      setMensajePunto('✅ Punto de recolección agregado correctamente');
-      setFormPunto({ nombre: '', direccion: '', tipos_residuos: '', horario_apertura: '', horario_cierre: '', lat: 22.2734, lng: -97.8428 });
+
+      setMensajePunto('✅ Punto agregado al mapa correctamente');
+      setFormPunto({ nombre: '', direccion: '', tipos_residuos: '', horario_apertura: '', horario_cierre: '' });
     } catch (err) {
-      setMensajePunto('❌ Error al agregar punto de recolección');
+      setMensajePunto('❌ Error al agregar punto');
     }
   };
 
@@ -142,6 +164,7 @@ const styles = {
   headerDerecha: { display: 'flex', alignItems: 'center', gap: '1rem' },
   bienvenida: { color: 'white' },
   botonSalir: { padding: '0.4rem 1rem', borderRadius: '8px', background: 'white', color: '#2d6a4f', border: 'none', cursor: 'pointer' },
+  botonMapa: { padding: '0.4rem 1rem', borderRadius: '8px', background: 'white', color: '#2d6a4f', border: 'none', cursor: 'pointer' },
   contenido: { padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '700px', margin: '0 auto' },
   card: { background: 'white', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', display: 'flex', flexDirection: 'column', gap: '1rem' },
   cardTitulo: { margin: 0, color: '#2d6a4f' },
