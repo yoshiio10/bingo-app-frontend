@@ -94,7 +94,6 @@ export default function DashboardResidente() {
         <div style={styles.headerDerecha}>
           <span style={styles.bienvenida}>Hola, {usuario?.nombre}</span>
           <button style={styles.botonSalir} onClick={cerrarSesion}>Salir</button>
-          <button style={styles.botonMapa} onClick={() => navigate('/mapa')}>Ver en el mapa</button>
         </div>
       </div>
 
