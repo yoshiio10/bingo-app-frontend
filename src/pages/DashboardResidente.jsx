@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function DashboardResidente() {
   const [solicitudes, setSolicitudes] = useState([]);
-  const [form, setForm] = useState({ descripcion: '', tipo_residuo: '', direccion: '', lat: 22.2734, lng: -97.8428 });
+  const [form, setForm] = useState({ descripcion: '', tipo_residuo: '', lat: 22.2734, lng: -97.8428 });
   const [formPunto, setFormPunto] = useState({ nombre: '', direccion: '', tipos_residuos: '', horario_apertura: '', horario_cierre: '' });
   const [mensaje, setMensaje] = useState('');
   const [mensajePunto, setMensajePunto] = useState('');
@@ -70,7 +70,7 @@ export default function DashboardResidente() {
         headers: { authorization: token }
       });
       setMensaje('✅ Solicitud enviada correctamente');
-      setForm({ descripcion: '', tipo_residuo: '', direccion: '', lat: 22.2734, lng: -97.8428 });
+      setForm({ descripcion: '', tipo_residuo: '', lat: 22.2734, lng: -97.8428 });
       cargarSolicitudes();
     } catch (err) {
       setMensaje('❌ Error al enviar solicitud');
@@ -110,7 +110,6 @@ export default function DashboardResidente() {
             <option value="electronico">Electrónico</option>
             <option value="otro">Otro</option>
           </select>
-          <input style={styles.input} name="direccion" placeholder="Dirección de recolección" value={form.direccion} onChange={handleChange} />
           {mensaje && <p style={styles.mensaje}>{mensaje}</p>}
           <button style={styles.boton} onClick={handleSubmit}>Solicitar recolección</button>
         </div>
