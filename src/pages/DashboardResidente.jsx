@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom';
 export default function DashboardResidente() {
   const [solicitudes, setSolicitudes] = useState([]);
   const [form, setForm] = useState({ descripcion: '', tipo_residuo: '', direccion: '', lat: 22.2734, lng: -97.8428 });
+  const [formPunto, setFormPunto] = useState({ nombre: '', direccion: '', tipos_residuos: '', horario_apertura: '', horario_cierre: '', lat: 22.2734, lng: -97.8428 });
   const [mensaje, setMensaje] = useState('');
+  const [mensajePunto, setMensajePunto] = useState('');
   const navigate = useNavigate();
   const usuario = JSON.parse(localStorage.getItem('usuario'));
   const token = localStorage.getItem('token');
@@ -26,6 +28,19 @@ export default function DashboardResidente() {
   };
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChangePunto = e => setFormPunto({ ...formPunto, [e.target.name]: e.target.value });
+
+  const handleSubmitPunto = async () => {
+    try {
+      await axios.post('https://bingo-app-backend-i8c1.onrender.com/api/puntos', formPunto, {
+        headers: { authorization: token }
+      });
+      setMensajePunto('✅ Punto de recolección agregado correctamente');
+      setFormPunto({ nombre: '', direccion: '', tipos_residuos: '', horario_apertura: '', horario_cierre: '', lat: 22.2734, lng: -97.8428 });
+    } catch (err) {
+      setMensajePunto('❌ Error al agregar punto de recolección');
+    }
+  };
 
   const handleSubmit = async () => {
     try {
@@ -76,6 +91,25 @@ export default function DashboardResidente() {
           <input style={styles.input} name="direccion" placeholder="Dirección de recolección" value={form.direccion} onChange={handleChange} />
           {mensaje && <p style={styles.mensaje}>{mensaje}</p>}
           <button style={styles.boton} onClick={handleSubmit}>Solicitar recolección</button>
+        </div>
+
+        <div style={styles.card}>
+          <h2 style={styles.cardTitulo}>Nuevo punto de recolección</h2>
+          <input style={styles.input} name="nombre" placeholder="Nombre del punto" value={formPunto.nombre} onChange={handleChangePunto} />
+          <input style={styles.input} name="direccion" placeholder="Dirección (calle y colonia)" value={formPunto.direccion} onChange={handleChangePunto} />
+          <input style={styles.input} name="tipos_residuos" placeholder="Tipos de residuos (ej. Plástico, Cartón)" value={formPunto.tipos_residuos} onChange={handleChangePunto} />
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ fontSize: '0.9rem', color: '#555' }}>Horario de apertura</label>
+              <input style={styles.input} type="time" name="horario_apertura" value={formPunto.horario_apertura} onChange={handleChangePunto} />
+            </div>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ fontSize: '0.9rem', color: '#555' }}>Horario de cierre</label>
+              <input style={styles.input} type="time" name="horario_cierre" value={formPunto.horario_cierre} onChange={handleChangePunto} />
+            </div>
+          </div>
+          {mensajePunto && <p style={styles.mensaje}>{mensajePunto}</p>}
+          <button style={styles.boton} onClick={handleSubmitPunto}>Agregar punto al mapa</button>
         </div>
 
         <div style={styles.card}>

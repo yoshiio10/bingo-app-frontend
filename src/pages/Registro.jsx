@@ -21,7 +21,7 @@ export default function Registro() {
 
   return (
     <div style={styles.container}>
-      <div style={styles.card}>
+      <div style={styles.card}>E
         <h1 style={styles.titulo}>♻️ BingoApp</h1>
         <h2 style={styles.subtitulo}>Crear cuenta</h2>
         {error && <p style={styles.error}>{error}</p>}
